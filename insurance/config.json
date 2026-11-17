@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Group Admin Dashboard",
+    "description": "Westbrook Internal Medicine Associates's dashboard shows Providers, Active Tasks and Expiring Docs, Provider Invites, Recent Tasks and the Task Breakdown. Open Enrollment Matrix from the sidebar to see each payer's insurance record.",
+    "role": "Group Admin",
+    "filename": "1.png"
+  },
+  {
+    "title": "Payers Enrollment Matrix",
+    "description": "The Enrollment Matrix shows the tied payers, how many providers are Networked or Blocked, and a card for each payer with its provider status counts. Each payer card has an Insurance button that opens the payer's insurance record, and Click to view provider details lists the providers.",
+    "role": "Group Admin",
+    "filename": "2.png"
+  },
+  {
+    "title": "Loading Payer Insurance",
+    "description": "Clicking Insurance on a payer card opens the insurance dialog. A placeholder shows while the record loads.",
+    "role": "Group Admin",
+    "filename": "3.png"
+  },
+  {
+    "title": "Payer Insurance Record",
+    "description": "The dialog shows the group credentialed with the payer, its Active status, provider status counts (Blocked, To-do, In Progress, Networked) and the key dates: Tied Since, Last Effective and Next Recred. History expands below.",
+    "role": "Group Admin",
+    "filename": "4.png"
+  },
+  {
+    "title": "Payer Insurance History",
+    "description": "Expanding History lists every event for the payer in date order: documents attached, notes, status changes and effective date notes. Each entry shows its date and who made the change, such as Priya Nair or System.",
+    "role": "Group Admin",
+    "filename": "5.png"
+  },
+  {
+    "title": "Provider Details Under a Payer",
+    "description": "Click to view provider details on a payer card lists the associated providers with their NPI, status, effective date and days to recredentialing. Networked providers are shaded green, Blocked red, and each row has an Insurance link.",
+    "role": "Group Admin",
+    "filename": "6.png"
+  },
+  {
+    "title": "Loading Provider Insurance",
+    "description": "Clicking Insurance on a provider row opens that provider's insurance dialog for the payer. A placeholder shows while it loads.",
+    "role": "Group Admin",
+    "filename": "7.png"
+  },
+  {
+    "title": "Provider Insurance Record",
+    "description": "The dialog shows the provider's Current Status with the payer, Network type, Effective date and Recredentialing date, the Tasks linked to it, and the full History from task creation through each status change and note.",
+    "role": "Group Admin",
+    "filename": "8.png"
+  }
+]

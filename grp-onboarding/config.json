@@ -1,0 +1,164 @@
+[
+  {
+    "title": "Groups",
+    "description": "The Site Admin's Groups page lists every practice group in the site with its Group Admin, a colour-coded credentialing status count, the overall status, and Task and Providers shortcuts. Click New Group to add a group.",
+    "role": "Site Admin",
+    "filename": "step1.png"
+  },
+  {
+    "title": "Create Group",
+    "description": "The Create Group dialog starts on Group Details. Enter the group name, DBA name, last 4 digits of the Tax ID and established date, and mark if the practice is minority or female owned. Then add the Group Admin: an optional salutation, their name and their email.",
+    "role": "Site Admin",
+    "filename": "step2.png"
+  },
+  {
+    "title": "Group Details Filled In",
+    "description": "Required fields are marked with an asterisk. Here the group is Rotterdam Family Medical Group and the Group Admin is Dr. Lucas Smith. The password goes to the Group Admin's email address. Click Next.",
+    "role": "Site Admin",
+    "filename": "step3.png"
+  },
+  {
+    "title": "Link Payers",
+    "description": "Step 2 links payers to the new group. Search the list and tick the payers the group contracts with. You can also skip this step and link payers later from the group's Enrollment Matrix.",
+    "role": "Site Admin",
+    "filename": "step4.png"
+  },
+  {
+    "title": "Create and Link Payers",
+    "description": "Alignment Healthcare and Cigna Medical Team are selected and the button shows how many payers will be linked. Click Create & Link 2 Payers and wait while the group is created.",
+    "role": "Site Admin",
+    "filename": "step5.png"
+  },
+  {
+    "title": "Group Created",
+    "description": "The group is created and the onboarding email is sent to the Group Admin. The link in the email expires in 30 days. If the email does not arrive, use Show onboarding link to copy the link, then click Done.",
+    "role": "Site Admin",
+    "filename": "step6.png"
+  },
+  {
+    "title": "Invites",
+    "description": "The Invites page lists every invitation for the site with counts for All, Pending, Used and Expired. The new Group Admin invite shows as Pending with its sent and expiry dates, and can be resent or deleted.",
+    "role": "Site Admin",
+    "filename": "step7.png"
+  },
+  {
+    "title": "Invite Email Received",
+    "description": "The Group Admin receives an email from EliTrak with the subject Complete the onboarding for the group on EliTrak. Open it.",
+    "role": "Group Admin",
+    "filename": "step8.png"
+  },
+  {
+    "title": "Invite Email",
+    "description": "The email greets the Group Admin by name, says which group was added and for which site, and has a Start group onboarding button. The link is also printed below it in case the button does not work, and expires in 30 days.",
+    "role": "Group Admin",
+    "filename": "step9.png"
+  },
+  {
+    "title": "Onboarding - Practice Info",
+    "description": "Group onboarding opens on Practice Info. The header shows the group name, the five steps, and a note: if you find any incorrect details, correct them on the CAQH server and refresh the page. Enter the Group CAQH ID and click Lookup.",
+    "role": "Group Admin",
+    "filename": "step10.png"
+  },
+  {
+    "title": "Looking Up CAQH",
+    "description": "EliTrak reads the group's profile from CAQH ProView. The Lookup button shows Looking up while it works.",
+    "role": "Group Admin",
+    "filename": "step11.png"
+  },
+  {
+    "title": "Practice Details From CAQH",
+    "description": "The practice details are filled in from CAQH and cannot be edited: Group NPI, legal name, DBA name, W-9 name, Tax ID last 4, year established, specialties and ownership. Mock CAQH data is shown here for the demo. Click Next.",
+    "role": "Group Admin",
+    "filename": "step12.png"
+  },
+  {
+    "title": "Primary Address",
+    "description": "Step 2 shows the primary practice location from CAQH: street address, city, state, ZIP, phone and fax. All fields are view-only.",
+    "role": "Group Admin",
+    "filename": "step13.png"
+  },
+  {
+    "title": "Billing Address",
+    "description": "Step 3 shows the billing and remittance address. Here it is the same as the primary address.",
+    "role": "Group Admin",
+    "filename": "step14.png"
+  },
+  {
+    "title": "Banking",
+    "description": "Step 4 shows the EFT and direct deposit details from CAQH: bank name and the last 4 digits of the account and routing numbers. Only the last 4 digits are kept. Full banking details go to each payer's EFT enrollment portal.",
+    "role": "Group Admin",
+    "filename": "step15.png"
+  },
+  {
+    "title": "Documents",
+    "description": "The documents already on file with CAQH are listed, such as the W-9 Form, Group NPI Confirmation Letter, Certificate of Insurance, Practice Roster and Banking / EFT Authorization Form. Nothing is uploaded here; the credentialing team collects anything outstanding during review.",
+    "role": "Group Admin",
+    "filename": "step16.png"
+  },
+  {
+    "title": "Review",
+    "description": "The Review step lists every section before submitting: Practice Info, Primary Address, Billing Address, Banking and Document records. Use Back to go to an earlier step, then click Complete Onboarding to submit.",
+    "role": "Group Admin",
+    "filename": "step17_1.png"
+  },
+  {
+    "title": "Onboarding Complete",
+    "description": "The group is onboarded. The page confirms it and offers Go to Login so the Group Admin can manage the group's credentialing.",
+    "role": "Group Admin",
+    "filename": "step17.png"
+  },
+  {
+    "title": "Site Admin Notification",
+    "description": "Back on the Site Admin side, the Notifications page shows a Group Onboarded alert with the group name, Group NPI and Group Admin email, and a link to open the group, review it and link its payers. Filter by group, status, category or date, or mark it as read.",
+    "role": "Site Admin",
+    "filename": "step18.png"
+  },
+  {
+    "title": "Welcome Email Received",
+    "description": "The Group Admin also receives a Welcome to EliTrak - Group Onboarding Complete email.",
+    "role": "Group Admin",
+    "filename": "step19.png"
+  },
+  {
+    "title": "Welcome Email",
+    "description": "The email confirms onboarding is complete and gives the sign-in email and a temporary password. It explains that the Group Admin must choose a new password and set a security question on first sign-in. Click Sign in to EliTrak.",
+    "role": "Group Admin",
+    "filename": "step20.png"
+  },
+  {
+    "title": "Sign In",
+    "description": "The sign-in page. Enter the email and the temporary password from the email, then click Sign in. Forgot password is available for recovery.",
+    "role": "Group Admin",
+    "filename": "step21.png"
+  },
+  {
+    "title": "Signing In",
+    "description": "The credentials are being checked.",
+    "role": "Group Admin",
+    "filename": "step22.png"
+  },
+  {
+    "title": "Complete Your Account Setup",
+    "description": "On first sign-in the Group Admin must set up the account: a new password, a confirmation, a security question and its answer. Cancel and sign out leaves without changing anything.",
+    "role": "Group Admin",
+    "filename": "step23.png"
+  },
+  {
+    "title": "Account Setup Filled In",
+    "description": "Enter and confirm the new password, choose a security question such as What city were you born in?, and type the answer. Then click Complete setup.",
+    "role": "Group Admin",
+    "filename": "step24.png"
+  },
+  {
+    "title": "Saving Setup",
+    "description": "The new password and security question are being saved.",
+    "role": "Group Admin",
+    "filename": "step25.png"
+  },
+  {
+    "title": "Group Admin Dashboard",
+    "description": "The Group Admin lands on the dashboard for the new group, with counts for Providers, Active Tasks and Expiring Docs, Provider Invites, Recent Tasks and the Task Breakdown. A new group starts with zeros until providers and tasks are added.",
+    "role": "Group Admin",
+    "filename": "step26.png"
+  }
+]

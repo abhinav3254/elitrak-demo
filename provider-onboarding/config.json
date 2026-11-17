@@ -1,0 +1,176 @@
+[
+  {
+    "title": "Task Dashboard",
+    "description": "The Group Admin's Task Dashboard lists every credentialing task for the group by status. Click the + Add Provider button to open the dialog for adding a provider to the group.",
+    "role": "Group Admin",
+    "filename": "step1.png"
+  },
+  {
+    "title": "Add Provider",
+    "description": "The Add Provider dialog offers two options: Search Existing, for a provider who is already on EliTrak, and Add New, for a provider who is not. We will start with Search Existing.",
+    "role": "Group Admin",
+    "filename": "step2.png"
+  },
+  {
+    "title": "Search Existing",
+    "description": "Search Existing finds providers already on EliTrak so the same person is not created twice. Choose to search by name or by NPI, then enter the value to see matching providers.",
+    "role": "Group Admin",
+    "filename": "step3.png"
+  },
+  {
+    "title": "Search Existing - Using name",
+    "description": "Type the provider's first or last name. Matching providers appear as you type, with their NPI, so you can pick the right one and add them to your group.",
+    "role": "Group Admin",
+    "filename": "step4.png"
+  },
+  {
+    "title": "Search Existing - Using NPI",
+    "description": "Enter the provider's 10-digit NPI for an exact match. This is the most reliable way to find a provider when several share a name.",
+    "role": "Group Admin",
+    "filename": "step5.png"
+  },
+  {
+    "title": "Add New Provider",
+    "description": "When the provider is not on EliTrak, choose Add New. The dialog opens on the first step, where you enter the provider's basic details such as name, NPI and email.",
+    "role": "Group Admin",
+    "filename": "step6.png"
+  },
+  {
+    "title": "Add New Provider",
+    "description": "Continue with the provider's details. Required fields are marked with an asterisk and are checked before you can move to the next step.",
+    "role": "Group Admin",
+    "filename": "step7.png"
+  },
+  {
+    "title": "Add New Provider",
+    "description": "Review the remaining details, then submit. EliTrak creates the provider with a pending onboarding status and prepares the onboarding invite.",
+    "role": "Group Admin",
+    "filename": "step8.png"
+  },
+  {
+    "title": "Provider Invite Ready",
+    "description": "The invite is ready. The dialog shows the onboarding link for this provider and confirms that an email was sent. You can copy the link and share it yourself if needed. The link expires in 30 days.",
+    "role": "Group Admin",
+    "filename": "step9.png"
+  },
+  {
+    "title": "Provider Invites",
+    "description": "The Provider Invites list shows every invite for the group with its status (pending, expired or accepted). The invite just created appears at the top, where you can copy its link or resend it.",
+    "role": "Group Admin",
+    "filename": "step10.png"
+  },
+  {
+    "title": "Email Invite",
+    "description": "The provider receives an email from EliTrak inviting them to join the group. The subject names the group.",
+    "role": "Provider",
+    "filename": "step11.png"
+  },
+  {
+    "title": "Email Content",
+    "description": "The email greets the provider by name, says which group added them, and has a Start onboarding button. The same link is printed below the button in case the button does not work.",
+    "role": "Provider",
+    "filename": "step12.png"
+  },
+  {
+    "title": "Onboarding Step - 1",
+    "description": "Onboarding opens on Demographics. Enter your 10-digit CAQH ID and click Lookup. EliTrak reads your profile from CAQH. Nothing is typed in by hand.",
+    "role": "Provider",
+    "filename": "step13.png"
+  },
+  {
+    "title": "Details for CAQH",
+    "description": "Your name, NPI, date of birth, gender, contact details and specialty are filled in from CAQH and cannot be edited here. If anything is wrong, correct it on CAQH and refresh the page. Every field must be filled before you can continue.",
+    "role": "Provider",
+    "filename": "step14.png"
+  },
+  {
+    "title": "State Licenses",
+    "description": "Your state licenses (state, number, type, status and expiry date) are read from CAQH and are view-only. If a license is missing, add it on CAQH and refresh the page.",
+    "role": "Provider",
+    "filename": "step15.png"
+  },
+  {
+    "title": "Education",
+    "description": "Your education history (institution, degree and dates) is read from CAQH and is view-only. Missing entries must be added on CAQH.",
+    "role": "Provider",
+    "filename": "step16.png"
+  },
+  {
+    "title": "Work History",
+    "description": "Your employers and dates of work are read from CAQH and are view-only. Missing entries must be added on CAQH.",
+    "role": "Provider",
+    "filename": "step17.png"
+  },
+  {
+    "title": "Malpractice",
+    "description": "Your malpractice insurance carrier, policy number and coverage end date are read from CAQH and are view-only. If it is missing or expired, update it on CAQH and refresh.",
+    "role": "Provider",
+    "filename": "step18.png"
+  },
+  {
+    "title": "Documents",
+    "description": "The documents on file with CAQH are listed here, such as your license, DEA certificate and malpractice certificate. Documents come from CAQH, so there is nothing to upload on this page.",
+    "role": "Provider",
+    "filename": "step19.png"
+  },
+  {
+    "title": "Review",
+    "description": "Review every section before submitting: demographics, licenses, education, work history, malpractice and documents. Use Back to revisit a step, then click Complete Onboarding to submit.",
+    "role": "Provider",
+    "filename": "step20.png"
+  },
+  {
+    "title": "You are all set",
+    "description": "Onboarding is submitted. This page confirms that your details were received and that the group will review them. A confirmation email with your login details follows.",
+    "role": "Provider",
+    "filename": "step21.png"
+  },
+  {
+    "title": "Onboarding Complete - Email",
+    "description": "After you submit, EliTrak emails you to confirm that onboarding is complete and to give you your login details.",
+    "role": "Provider",
+    "filename": "step22.png"
+  },
+  {
+    "title": "Email Content",
+    "description": "The email contains your username and a temporary password with a Log in button. You will be asked to change the temporary password the first time you sign in.",
+    "role": "Provider",
+    "filename": "step23.png"
+  },
+  {
+    "title": "Auth Module",
+    "description": "The sign-in screen for EliTrak. Providers, Group Admins and Site Admins all sign in here with their email and password.",
+    "role": "Provider",
+    "filename": "step24.png"
+  },
+  {
+    "title": "Login With Creds",
+    "description": "Enter your email and the temporary password from the email, then click Sign in.",
+    "role": "Provider",
+    "filename": "step25.png"
+  },
+  {
+    "title": "Reset Password!",
+    "description": "On first sign-in you must replace the temporary password before you can continue.",
+    "role": "Provider",
+    "filename": "step26.png"
+  },
+  {
+    "title": "Reset Password!",
+    "description": "Enter a new password that meets the requirements, confirm it, and choose and answer a security question for account recovery. Then save to continue.",
+    "role": "Provider",
+    "filename": "step27.png"
+  },
+  {
+    "title": "Dashboard",
+    "description": "The Provider Dashboard shows your onboarding and credentialing status, the payers you are enrolled with, upcoming expirations and any items that need your attention.",
+    "role": "Provider",
+    "filename": "step28.png"
+  },
+  {
+    "title": "Notifications",
+    "description": "The Notifications panel lists updates about your account, such as status changes, document expiry reminders and messages from your group.",
+    "role": "Provider",
+    "filename": "step29.png"
+  }
+]

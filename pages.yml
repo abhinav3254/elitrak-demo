@@ -1,0 +1,53 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build manifest.json from the folders in the repo
+        run: |
+          cat > /tmp/manifest.js <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const out = [];
+          const walk = d => {
+            for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+              if (e.name.startsWith('.')) continue;
+              const f = path.join(d, e.name);
+              if (e.isDirectory()) walk(f);
+              else out.push(f.split(path.sep).join('/'));
+            }
+          };
+          for (const e of fs.readdirSync('.', { withFileTypes: true })) {
+            if (e.isDirectory() && !e.name.startsWith('.') && e.name !== 'node_modules') walk(e.name);
+          }
+          out.sort();
+          fs.writeFileSync('manifest.json', JSON.stringify(out, null, 1));
+          console.log(out.length + ' files listed');
+          EOF
+          node /tmp/manifest.js
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

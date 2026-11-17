@@ -1,0 +1,110 @@
+[
+  {
+    "title": "Task Board",
+    "description": "The Task Board lists the group's credentialing work. The Group board holds group-level tasks, followed by a board for each provider. Status counts (Blocked, To-do, In Progress, In Analysis, Pending Review, Networked) show on every task. Click Create task to add one.",
+    "role": "Group Admin",
+    "filename": "step1.png"
+  },
+  {
+    "title": "Create Task - Level and Type",
+    "description": "Choose the task level first: Group level covers multiple providers, Individual level covers one provider. Then pick the task type. Group level offers Initial Contracting, Renegotiating / Recontracting, Credentialing, Demographic Update and Generic Task (Other).",
+    "role": "Group Admin",
+    "filename": "step2.png"
+  },
+  {
+    "title": "Select Payers",
+    "description": "Tick the payers the task applies to. Each payer card shows an Auto badge when automation is configured for it. A counter shows how many are selected, here 2 payers (Alignment Healthcare and AzAHP). Click Next.",
+    "role": "Group Admin",
+    "filename": "step3.png"
+  },
+  {
+    "title": "Name the Task",
+    "description": "The title and description are pre-filled from the chosen level and type, for example Group Credentialing for the group. Edit them if needed, then click Create Task. Use Back to change the payers.",
+    "role": "Group Admin",
+    "filename": "step4.png"
+  },
+  {
+    "title": "Task Created",
+    "description": "The new group task appears on the Group board with its title, date and description. Both payers start as To-do, so the To-do count shows 2.",
+    "role": "Group Admin",
+    "filename": "step5.png"
+  },
+  {
+    "title": "Payers Under the Task",
+    "description": "Expand the task to see one row per payer. Each row shows the Auto badge, Forms, attachment and note counts, and a status dropdown. Use Add payor to include another payer in this task.",
+    "role": "Group Admin",
+    "filename": "step6.png"
+  },
+  {
+    "title": "Payer Documents",
+    "description": "Click a payer name to open its detail. The Documents tab shows Document Compliance, such as 1/1 uploaded, with the required payer documents (W-9 Form) and Additional Group Documents like the Group NPI Letter and Group Liability Insurance. A banner offers Review automation.",
+    "role": "Group Admin",
+    "filename": "step7.png"
+  },
+  {
+    "title": "Notes and Attachments",
+    "description": "The Notes tab keeps attachments and notes for the payer. Click Attach file to add a document, or write a note and click Add note.",
+    "role": "Group Admin",
+    "filename": "step8.png"
+  },
+  {
+    "title": "Progress History",
+    "description": "The Progress tab lists every status change for the payer, with its note and attachment. It reads No status changes yet until the status is first changed.",
+    "role": "Group Admin",
+    "filename": "step9.png"
+  },
+  {
+    "title": "Review Automation Letter",
+    "description": "Review automation opens the letter prepared for the payer. The To address is set by the Platform Admin. Check the subject and body, which are filled with the group's NPI, TIN and contact details, and add Cc or Bcc if needed. Edits are remembered for this payer.",
+    "role": "Group Admin",
+    "filename": "step10.png"
+  },
+  {
+    "title": "Checklist and Forms",
+    "description": "Below the letter, the Group Document Checklist shows which documents are on file, and Filled Forms lists payer forms pre-filled from the group's data. Click Send & Move to In Progress to send the letter and update the status.",
+    "role": "Group Admin",
+    "filename": "step11.png"
+  },
+  {
+    "title": "Letter Sent",
+    "description": "While the letter is sent, the payer's status shows a loading indicator.",
+    "role": "Group Admin",
+    "filename": "step12.png"
+  },
+  {
+    "title": "Moved to In Progress",
+    "description": "After sending, the payer's status becomes In Progress and an Email badge appears on its row. The In Progress count at the top of the task increases.",
+    "role": "Group Admin",
+    "filename": "step13.png"
+  },
+  {
+    "title": "Change Status",
+    "description": "Open the status dropdown on a payer to move it to Networked, Blocked, To-do, In Progress, In Analysis or Pending Review. Not Applicable and Archived are also available.",
+    "role": "Group Admin",
+    "filename": "step14.png"
+  },
+  {
+    "title": "Confirm Status Change",
+    "description": "A confirmation dialog shows the change, for example In Progress to Networked. Add an optional note and an optional attachment, then click Confirm.",
+    "role": "Group Admin",
+    "filename": "step15.png"
+  },
+  {
+    "title": "Note and Attachment Added",
+    "description": "A note (This note is for changing status) and an attachment (sample.pdf) are added. They are stored with the status change in the payer's Progress history.",
+    "role": "Group Admin",
+    "filename": "step16.png"
+  },
+  {
+    "title": "Updating Status",
+    "description": "The button shows Updating while the status change is saved.",
+    "role": "Group Admin",
+    "filename": "step17.png"
+  },
+  {
+    "title": "Payer Networked",
+    "description": "AzAHP now shows Networked and the Networked count at the top of the task is 1. Alignment Healthcare is still To-do. Repeat these steps for each remaining payer.",
+    "role": "Group Admin",
+    "filename": "step18.png"
+  }
+]

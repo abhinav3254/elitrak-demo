@@ -1,0 +1,164 @@
+[
+  {
+    "title": "Task Board",
+    "description": "The Group Admin's Task Board shows the group board and a board for each provider, with a colour-coded count for every status (Blocked, To-do, In Progress, In Analysis, Pending Review, Networked). Click Create task to start a new task.",
+    "role": "Group Admin",
+    "filename": "step1.png"
+  },
+  {
+    "title": "Create Task - Group Level",
+    "description": "Create Task opens on Task level. Group level is selected by default and can cover several providers. Its types are Initial Contracting, Renegotiating / Recontracting, Credentialing, Demographic Update and Generic Task (Other).",
+    "role": "Group Admin",
+    "filename": "step2.png"
+  },
+  {
+    "title": "Create Task - Individual Level",
+    "description": "Choose Individual level for work on one provider. Its types are Credentialing, Recredentialing, Demographic Update and Generic Task (Other). Credentialing adds one specific provider to a group contract.",
+    "role": "Group Admin",
+    "filename": "step3.png"
+  },
+  {
+    "title": "Select Payers",
+    "description": "Select the payers the task applies to. Each payer shows an Auto badge when automation is available for it. Here Alignment Healthcare and AzAHP are selected, and the dialog shows how many payers are chosen. Click Next.",
+    "role": "Group Admin",
+    "filename": "step4.png"
+  },
+  {
+    "title": "Assign Providers",
+    "description": "The second page shows the selected payers as chips at the top. Pick the providers for the task from the list, with a search by name or NPI and a Select all option. The task title is filled in from your choice and a short description is required.",
+    "role": "Group Admin",
+    "filename": "step5.png"
+  },
+  {
+    "title": "Provider Selected",
+    "description": "Here Ethan Brooks is selected, and the dialog shows how many providers are chosen. One task is created for each selected provider. Complete the title and description, then click Create Task.",
+    "role": "Group Admin",
+    "filename": "step6.png"
+  },
+  {
+    "title": "Task Created",
+    "description": "The new Credentialing task now appears on Ethan Brooks's board. The status counts show 2 To-do, one for each selected payer.",
+    "role": "Group Admin",
+    "filename": "step7.png"
+  },
+  {
+    "title": "Provider Dashboard",
+    "description": "Ethan Brooks signs in and sees the new work on his dashboard: Active Tasks, Networked, Blocked and Notifications. A Documents requested notification points him to My Tasks.",
+    "role": "Provider",
+    "filename": "step8.png"
+  },
+  {
+    "title": "My Tasks",
+    "description": "My Tasks lists the provider's credentialing tasks with the group, the payer status counts and the overall status. The new Credentialing task shows as ToDo.",
+    "role": "Provider",
+    "filename": "step9.png"
+  },
+  {
+    "title": "Payer Breakdown",
+    "description": "Expanding the task shows the status of each payer. Both AzAHP and Alignment Healthcare are To-do. The provider can follow progress here but only the Group Admin changes statuses.",
+    "role": "Provider",
+    "filename": "step10.png"
+  },
+  {
+    "title": "Task Payers",
+    "description": "On the Group Admin's board, expanding the task lists each payer with its Auto badge, Forms, attachment and comment counts, and a status control. Click a payer name to open its details.",
+    "role": "Group Admin",
+    "filename": "step11.png"
+  },
+  {
+    "title": "Payer Documents",
+    "description": "The payer dialog opens on Documents. Document Compliance shows 7/7 uploaded, with each required document such as the Medical License, DEA Certificate, Board Certification and Malpractice Insurance Certificate, and its expiry date. When automation is available, a banner offers Review automation.",
+    "role": "Group Admin",
+    "filename": "step12.png"
+  },
+  {
+    "title": "Attachments and Notes -- Not present",
+    "description": "In case if document is not uploaded/fetched from CAQH then we can manually upload from here.",
+    "role": "Group Admin",
+    "filename": "step13_1.png"
+  },
+  {
+    "title": "Attachments and Notes",
+    "description": "The Notes tab keeps files and notes for this payer. Use Attach file to add an attachment, or write a note about the credentialing task and click Add note.",
+    "role": "Group Admin",
+    "filename": "step13.png"
+  },
+  {
+    "title": "Progress",
+    "description": "The Progress tab lists every status change for this payer with who made it and when. It is empty until the status first changes.",
+    "role": "Group Admin",
+    "filename": "step14.png"
+  },
+  {
+    "title": "Review Automation Letter",
+    "description": "Review automation opens the credentialing letter for Alignment Healthcare. The To address is set by the Platform Admin, and you can add Cc and Bcc and edit the subject and body, which are pre-filled with the provider's details. The document checklist shows 7/7 and Filled Forms lists any payer forms. Send & Move to In Progress sends the letter and updates the status.",
+    "role": "Group Admin",
+    "filename": "step15.png"
+  },
+  {
+    "title": "Letter Sent",
+    "description": "After the letter is sent the board refreshes while the payer status is updated.",
+    "role": "Group Admin",
+    "filename": "step16.png"
+  },
+  {
+    "title": "Status In Progress",
+    "description": "Alignment Healthcare now shows In Progress with an Email badge for the sent letter. The counts at the top of the task move to 1 To-do and 1 In Progress.",
+    "role": "Group Admin",
+    "filename": "step17.png"
+  },
+  {
+    "title": "Provider Sees Progress",
+    "description": "The provider's My Tasks page reflects the change. Alignment Healthcare is In Progress and AzAHP is still To-do.",
+    "role": "Provider",
+    "filename": "step18.png"
+  },
+  {
+    "title": "Change Status",
+    "description": "Click a payer's status control to change it. The options are Networked, Blocked, To-do, In Progress, In Analysis, Pending Review, Not Applicable and Archived. The current status is checked.",
+    "role": "Group Admin",
+    "filename": "step19.png"
+  },
+  {
+    "title": "Status History",
+    "description": "The Progress tab now records the change from ToDo to InProgress, with the Group Admin's name, the date and the time.",
+    "role": "Group Admin",
+    "filename": "step20.png"
+  },
+  {
+    "title": "Add a Note",
+    "description": "Add a note about the payer, here that the status needs to change to Networked, so the next person sees why. Notes are saved with the payer and counted on the board.",
+    "role": "Group Admin",
+    "filename": "step21.png"
+  },
+  {
+    "title": "Confirm Status Change",
+    "description": "Choosing a new status opens Confirm Status Change. It shows the change, here In Progress to Networked, with an optional note and an optional attachment.",
+    "role": "Group Admin",
+    "filename": "step22.png"
+  },
+  {
+    "title": "Note and Attachment",
+    "description": "Add a note explaining the change and attach a supporting file, such as a PDF, then click Confirm. Cancel closes the dialog without changing anything.",
+    "role": "Group Admin",
+    "filename": "step23.png"
+  },
+  {
+    "title": "Updating",
+    "description": "The status is being saved. The note and the attachment are stored with the change.",
+    "role": "Group Admin",
+    "filename": "step24.png"
+  },
+  {
+    "title": "Networked",
+    "description": "Alignment Healthcare is now Networked. The task counts show 1 To-do and 1 Networked, and the payer row shows 1 attachment and 2 comments from the change.",
+    "role": "Group Admin",
+    "filename": "step25.png"
+  },
+  {
+    "title": "Notification",
+    "description": "At the end you will get a notification that you have been networked with this payor.",
+    "role": "Group Admin",
+    "filename": "step26.png"
+  }
+]

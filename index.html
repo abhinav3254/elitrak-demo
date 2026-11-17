@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EliTrak Journey</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{--bg:#0b0c0f;--panel:#14161b;--panel2:#1a1d24;--line:#23262e;--text:#e7e9ee;--muted:#8b909c;--accent:#6ea8fe}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+[hidden]{display:none!important}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* landing */
+#landing{max-width:1200px;margin:0 auto;padding:64px 24px}
+#landing h1{font-size:28px;font-weight:600;letter-spacing:-.02em}
+#landing .sub{color:var(--muted);margin-top:8px;font-size:14px}
+#drop{margin-top:32px;border:1px dashed var(--line);border-radius:14px;padding:48px 24px;text-align:center;background:var(--panel);transition:border-color .15s,background .15s}
+#drop.over{border-color:var(--accent);background:var(--panel2)}
+#drop p{color:var(--muted);font-size:14px;margin-top:14px}
+#drop .btn{margin:0 6px}
+#drop p:empty,#boot:empty{display:none}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--text);color:#0b0c0f;font-weight:500;font-size:14px}
+.btn:hover{opacity:.9}
+.btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+#bar{display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-top:32px;padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;font-size:14px}
+#bar label{display:flex;align-items:center;gap:8px;color:var(--muted)}
+#bar input[type=number]{width:64px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+#bar input[type=checkbox]{accent-color:var(--accent)}
+#bar .grow{flex:1}
+#root-name{color:var(--muted);font-size:14px;margin:28px 0 14px}
+#grid{display:flex;flex-direction:column;gap:18px}
+.others{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.label{color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-top:14px}
+.flow{display:flex;align-items:stretch}
+.flow .card{flex:1;min-width:0}
+.card{position:relative}
+.card .num{position:absolute;top:16px;right:16px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent);background:rgba(110,168,254,.12);padding:3px 8px;border-radius:999px;font-variant-numeric:tabular-nums}
+.arrow{width:48px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.arrow svg.i{width:36px;height:14px;overflow:visible}
+.arrow .line{stroke-dasharray:4 4;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-8}}
+.card.all{flex-direction:row;align-items:center;gap:16px;padding:20px 24px;background:linear-gradient(90deg,rgba(110,168,254,.14),var(--panel2));border-color:rgba(110,168,254,.35)}
+.card.all .t{display:flex;flex-direction:column;gap:4px;flex:1}
+.card.all .go{display:flex;align-items:center;gap:8px;color:var(--accent);font-size:14px;font-weight:500}
+.card.all:hover .go svg{transform:translateX(4px)}
+.card.all .go svg{transition:transform .2s}
+@media(max-width:820px){.flow{flex-direction:column}.arrow{width:auto;height:44px}.arrow svg.i{transform:rotate(90deg)}}
+.card{display:flex;flex-direction:column;gap:10px;text-align:left;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .n{font-weight:500;word-break:break-word}
+.card .m{color:var(--muted);font-size:13px}
+.card.all{background:var(--panel2)}
+.card svg{color:var(--accent)}
+
+/* presentation */
+#present{position:fixed;inset:0;background:#000;overflow:hidden;cursor:default}
+#present.idle{cursor:none}
+#progress{position:absolute;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:5}
+#stage{position:absolute;inset:0}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.slide img,.slide video{max-width:100%;max-height:100%;object-fit:contain}
+.slide iframe{width:100%;height:100%;border:0;background:#fff}
+.slide.title{flex-direction:column;gap:14px;background:var(--bg);text-align:center;padding:48px}
+.slide.title svg{width:44px;height:44px;color:var(--accent)}
+.slide.title h2{font-size:clamp(28px,5vw,64px);font-weight:600;letter-spacing:-.02em;word-break:break-word}
+.slide.title p{color:var(--muted);font-size:clamp(14px,1.6vw,20px)}
+.slide.doc{background:var(--bg);align-items:flex-start;overflow:auto;scrollbar-width:none}
+.slide.doc::-webkit-scrollbar{display:none}
+.doc .body{width:min(900px,100%);margin:0 auto;padding:96px 40px 120px;font-size:clamp(16px,1.7vw,24px);line-height:1.6}
+.doc h1,.doc h2,.doc h3,.doc h4{margin:1.1em 0 .5em;letter-spacing:-.01em}
+.doc h1{font-size:1.9em}.doc h2{font-size:1.5em}.doc h3{font-size:1.2em}
+.doc p{margin:.7em 0}.doc ul{margin:.7em 0 .7em 1.4em}
+.doc code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--panel2);padding:.1em .35em;border-radius:5px;font-size:.88em}
+.doc pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78em;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:.8em 0}
+.doc pre code{background:none;padding:0}
+.slide.file{flex-direction:column;gap:12px;background:var(--bg);color:var(--muted);text-align:center;padding:40px}
+.slide.file b{color:var(--text);font-size:22px;font-weight:500;word-break:break-word}
+.slide.audio{flex-direction:column;gap:20px;background:var(--bg)}
+#caption{position:absolute;left:0;right:0;bottom:0;padding:44px 24px 74px;background:linear-gradient(transparent,rgba(0,0,0,.65));font-size:13px;color:#cfd3dc;pointer-events:none;z-index:3;transition:opacity .3s}
+#top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:linear-gradient(rgba(0,0,0,.6),transparent);z-index:4;transition:opacity .3s}
+#controls{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px 8px;background:rgba(20,22,27,.88);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:999px;z-index:4;transition:opacity .3s}
+#controls button,#top button{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;color:var(--text);font-size:13px}
+#controls button:hover,#top button:hover{background:var(--panel2)}
+#count{color:var(--muted);font-size:13px;padding:0 10px;font-variant-numeric:tabular-nums}
+#crumb{color:#cfd3dc;font-size:14px}
+#info{position:absolute;left:24px;bottom:96px;z-index:4;max-width:min(560px,45vw);display:flex;flex-direction:column;gap:6px;padding:16px 22px 18px 24px;background:rgba(14,16,20,.8);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;pointer-events:auto;cursor:grab;user-select:none;touch-action:none;overflow:hidden}
+#info.dragging{cursor:grabbing;border-color:var(--accent)}
+#info .bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#info .role{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+#info h3{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
+#info p{font-size:clamp(13px,1.2vw,16px);line-height:1.55;color:#c4c8d2}
+#present.idle #top,#present.idle #controls,#present.idle #caption{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<main id="landing">
+  <h1>EliTrak Journey</h1>
+  <p class="sub">Pick a section to play it as an auto-advancing slideshow.</p>
+  <p class="sub" id="boot"></p>
+
+  <section id="drop">
+    <button class="btn" id="choose">
+      <svg class="i" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+      Choose folder
+    </button>
+    <p id="status"></p>
+    <p>or drag and drop a folder here</p>
+    <input type="file" id="picker" webkitdirectory multiple hidden>
+  </section>
+
+  <section id="loaded" hidden>
+    <div id="bar">
+      <label>Seconds per slide <input type="number" id="secs" min="1" max="120" value="5"></label>
+      <label><input type="checkbox" id="loop" checked> Loop</label>
+      <label><input type="checkbox" id="subs" checked> Include sub-folders</label>
+      <span class="grow"></span>
+      <button class="btn ghost" id="change">Change folder</button>
+    </div>
+    <div id="root-name"></div>
+    <div id="grid"></div>
+  </section>
+</main>
+
+<div id="present" hidden>
+  <div id="progress"></div>
+  <div id="top">
+    <span id="crumb"></span>
+    <button id="exit" title="Exit (Esc)"><svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Exit</button>
+  </div>
+  <div id="stage"></div>
+  <div id="caption"></div>
+  <div id="info" hidden title="Drag to move - double-click to reset"></div>
+  <div id="controls">
+    <button id="prev" title="Previous (Left)"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button id="toggle" title="Play / Pause (Space)"></button>
+    <button id="next" title="Next (Right)"><svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+    <span id="count"></span>
+    <button id="infoBtn" title="Pause, then show / hide info (I)"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>
+    <button id="full" title="Fullscreen (F)"><svg class="i" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const ICON_PLAY  = '<svg class="i" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>';
+const ICON_PAUSE = '<svg class="i" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>';
+const ICON_FOLDER = '<svg class="i" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>';
+
+const IGNORE = /^(\.|thumbs\.db$|desktop\.ini$)/i;
+const EXT = {
+  image: ['jpg','jpeg','png','gif','webp','avif','svg','bmp'],
+  video: ['mp4','webm','mov','m4v','ogv'],
+  audio: ['mp3','wav','ogg','m4a','flac'],
+  pdf:   ['pdf'],
+  md:    ['md','markdown'],
+  html:  ['html','htm'],
+  text:  ['txt','log','csv','json','js','ts','tsx','jsx','py','java','xml','yml','yaml','css','sql','sh','c','cpp','go','rs','properties','kt','gradle']
+};
+const typeOf = name => {
+  const e = (name.split('.').pop() || '').toLowerCase();
+  for (const t in EXT) if (EXT[t].includes(e)) return t;
+  return 'file';
+};
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const natural = (a, b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'});
+// Presentation order of top-level folders; anything not listed follows alphabetically
+const ORDER = ['grp-onboarding', 'provider-onboarding', 'provider-credentialing', 'group-credentialing'];
+const norm = n => n.toLowerCase().replace(/[^a-z0-9]/g, '');
+const rank = n => { const i = ORDER.findIndex(o => norm(o) === norm(n)); return i < 0 ? ORDER.length : i; };
+const byGroup = (a, b) => rank(a) - rank(b) || natural(a, b);
+
+/* ---------- loading ---------- */
+let rootName = '', groups = new Map(); // group name -> [{rel, file}]
+
+let configs = new Map(); // dir -> {files: Map, folder}
+
+const pick = (o, re) => { const k = Object.keys(o).find(k => re.test(k)); const v = k ? o[k] : ''; return v == null ? '' : String(v); };
+const toItem = (o, fname) => ({title: pick(o, /^title$/i), description: pick(o, /^desc/i), role: pick(o, /^role$/i), filename: fname != null ? fname : pick(o, /^file/i)});
+function normalizeCfg(j) {
+  let items = [];
+  if (Array.isArray(j)) items = j.filter(x => x && typeof x === 'object').map(x => toItem(x));
+  else if (j && typeof j === 'object') {
+    const single = Object.keys(j).some(k => /^(title|role|file|desc)/i.test(k)) && Object.values(j).every(v => v === null || typeof v !== 'object');
+    items = single ? [toItem(j)] : Object.entries(j).filter(([, v]) => v && typeof v === 'object').map(([k, v]) => toItem(v, pick(v, /^file/i) || k));
+  }
+  const files = new Map(); let folder = null;
+  items.forEach(it => {
+    if (!it.title && !it.description && !it.role) return;
+    if (!it.filename) { folder = folder || it; return; }
+    const n = it.filename.split('/').pop().toLowerCase();
+    files.set(n, it); files.set(n.replace(/\.[^.]+$/, ''), it);
+  });
+  return {files, folder};
+}
+function lookupCfg(dir, fileName) {
+  const c = configs.get(dir);
+  if (!c) return null;
+  const n = fileName.toLowerCase();
+  return c.files.get(n) || c.files.get(n.replace(/\.[^.]+$/, '')) || c.folder || null;
+}
+
+async function ingest(list) {
+  list = list.filter(e => e.path && !e.path.split('/').some(p => IGNORE.test(p)));
+  if (!list.length) return alert('No files found in that folder.');
+  const segs = list.map(e => e.path.split('/'));
+  const first = segs[0][0];
+  const shared = segs.every(s => s.length > 1 && s[0] === first);
+  rootName = shared ? first : 'Selected items';
+  groups = new Map();
+  configs = new Map();
+  for (let i = 0; i < list.length; i++) {
+    const s = segs[i];
+    const rel = shared ? s.slice(1) : s;           // path inside root
+    if (rel[rel.length - 1].toLowerCase() === 'config.json') {
+      try { configs.set(rel.slice(0, -1).join('/'), normalizeCfg(JSON.parse(await list[i].file.text()))); }
+      catch (err) { console.warn('Bad config.json in', rel.join('/'), err); }
+      continue;
+    }
+    if (rel.length === 1 && /^(index\.html|manifest\.json)$/i.test(rel[0])) continue;
+    const g = rel.length > 1 ? rel[0] : '(files in root)';
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push({rel: rel.join('/'), file: list[i].file});
+  }
+  if (!groups.size) return alert('No presentable files found in that folder.');
+  renderLanding();
+}
+
+if (window.gsap) gsap.from('#landing h1, #landing .sub, #drop', {opacity: 0, y: 20, duration: .7, stagger: .12, ease: 'power3.out', clearProps: 'all'});
+/* ---------- Hosted content: folders next to index.html, listed by manifest.json ---------- */
+const ROOT_LABEL = 'EliTrak Journey';
+const setStatus = t => { $('#status').textContent = t; };
+
+async function loadHosted() {
+  try {
+    const r = await fetch('manifest.json', {cache: 'no-cache'});
+    if (!r.ok) throw new Error('manifest.json not found');
+    const paths = await r.json();
+    if (!paths.length) throw new Error('manifest is empty');
+    const out = paths.map(p => {
+      const u = p.split('/').map(encodeURIComponent).join('/');
+      const f = {name: p.split('/').pop(), size: 0, get: async () => u};
+      f.text = async () => (await fetch(u)).text();
+      return {path: ROOT_LABEL + '/' + p, file: f};
+    });
+    $('#boot').textContent = '';
+    await ingest(out);
+    return true;
+  } catch (e) {
+    console.warn(e);
+    return false;
+  }
+}
+async function srcOf(f) {
+  if (!f.get) return url(f);
+  return f._u || (f._u = await f.get());
+}
+
+$('#choose').onclick = () => $('#picker').click();
+$('#picker').onchange = e => {
+  ingest([...e.target.files].map(f => ({path: f.webkitRelativePath, file: f})));
+  e.target.value = '';
+};
+$('#change').onclick = () => { $('#loaded').hidden = true; $('#drop').hidden = false; };
+
+const drop = $('#drop');
+['dragenter','dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => e.preventDefault());
+drop.addEventListener('drop', async e => {
+  const items = [...e.dataTransfer.items].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+  const out = [];
+  const readAll = r => new Promise((res, rej) => {
+    const acc = [];
+    const go = () => r.readEntries(b => b.length ? (acc.push(...b), go()) : res(acc), rej);
+    go();
+  });
+  const walk = async (entry, prefix) => {
+    if (entry.isFile) {
+      const file = await new Promise((res, rej) => entry.file(res, rej));
+      out.push({path: prefix + entry.name, file});
+    } else if (entry.isDirectory) {
+      const kids = await readAll(entry.createReader());
+      for (const k of kids) await walk(k, prefix + entry.name + '/');
+    }
+  };
+  for (const it of items) await walk(it, '');
+  ingest(out);
+});
+
+const ARROW = '<svg class="i" viewBox="0 0 36 14"><path class="line" d="M0 7H30"/><path d="m26 2 6 5-6 5"/></svg>';
+const ARROW_RIGHT = '<svg class="i" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+
+function renderLanding() {
+  $('#drop').hidden = true;
+  $('#loaded').hidden = false;
+  const total = [...groups.values()].reduce((n, a) => n + a.length, 0);
+  $('#root-name').textContent = `${rootName} - ${total} files in ${groups.size} folder${groups.size === 1 ? '' : 's'}`;
+  const grid = $('#grid');
+  grid.innerHTML = '';
+  const names = [...groups.keys()].sort(byGroup);
+  const steps = names.filter(n => rank(n) < ORDER.length);
+  const others = names.filter(n => rank(n) >= ORDER.length);
+
+  const card = (name, i) => {
+    const items = groups.get(name);
+    const subs = new Set(items.map(x => x.rel.split('/').slice(0, -1).join('/')).filter(d => d && d !== name)).size;
+    const b = document.createElement('button');
+    b.className = 'card';
+    b.innerHTML = (i != null ? `<span class="num">${String(i + 1).padStart(2, '0')}</span>` : '') + ICON_FOLDER
+      + `<span class="n">${esc(name)}</span><span class="m">${items.length} file${items.length === 1 ? '' : 's'}${subs ? ` - ${subs} sub-folder${subs === 1 ? '' : 's'}` : ''}</span>`;
+    b.onclick = () => start(name);
+    return b;
+  };
+
+  if (groups.size > 1) {
+    const b = document.createElement('button');
+    b.className = 'card all';
+    b.innerHTML = `${ICON_FOLDER}<span class="t"><span class="n">Play the full journey</span><span class="m">${total} files - every folder in order</span></span><span class="go">Start ${ARROW_RIGHT}</span>`;
+    b.onclick = () => start(null);
+    grid.appendChild(b);
+  }
+  if (steps.length) {
+    const flow = document.createElement('div');
+    flow.className = 'flow';
+    steps.forEach((n, i) => {
+      if (i) { const a = document.createElement('div'); a.className = 'arrow'; a.innerHTML = ARROW; flow.appendChild(a); }
+      flow.appendChild(card(n, i));
+    });
+    grid.appendChild(flow);
+  }
+  if (others.length) {
+    if (steps.length) { const l = document.createElement('div'); l.className = 'label'; l.textContent = 'More folders'; grid.appendChild(l); }
+    const og = document.createElement('div');
+    og.className = 'others';
+    others.forEach(n => og.appendChild(card(n)));
+    grid.appendChild(og);
+  }
+  if (window.gsap) gsap.from('#grid .card.all, #grid .flow > *, #grid .label, #grid .others .card',
+    {opacity: 0, y: 22, duration: .55, stagger: .08, ease: 'power2.out', clearProps: 'all'});
+}
+
+/* ---------- slides ---------- */
+let slides = [], idx = 0, playing = true, elapsed = 0, dur = 5000, lastT = 0, raf = 0, urls = [], token = 0, loopOn = true, baseMs = 5000;
+
+function buildSlides(groupName) {
+  const withSubs = $('#subs').checked;
+  let items = [];
+  (groupName ? [groupName] : [...groups.keys()]).forEach(g => {
+    groups.get(g).forEach(it => {
+      const parts = it.rel.split('/');
+      const direct = g === '(files in root)' ? parts.length === 1 : parts.length === 2;
+      if (withSubs || direct) items.push(it);
+    });
+  });
+  const gOf = rel => rel.includes('/') ? rel.split('/')[0] : '(files in root)';
+  items.sort((a, b) => byGroup(gOf(a.rel), gOf(b.rel)) || natural(a.rel, b.rel));
+  const keyOf = rel => rel.split('/').slice(0, -1).join('/');
+  const dirOf = rel => keyOf(rel) || rootName;
+  const counts = {};
+  items.forEach(it => { const d = dirOf(it.rel); counts[d] = (counts[d] || 0) + 1; });
+  const out = [];
+  let last = null;
+  items.forEach(it => {
+    const d = dirOf(it.rel);
+    if (d !== last) { out.push({type: 'title', title: d, count: counts[d], cfg: (configs.get(keyOf(it.rel)) || {}).folder || null}); last = d; }
+    out.push({type: typeOf(it.file.name), file: it.file, rel: it.rel, dir: d, cfg: lookupCfg(keyOf(it.rel), it.file.name)});
+  });
+  return out;
+}
+
+function start(groupName) {
+  slides = buildSlides(groupName);
+  if (!slides.length) return alert('Nothing to present with these settings.');
+  baseMs = Math.max(1, +$('#secs').value || 5) * 1000;
+  loopOn = $('#loop').checked;
+  $('#landing').hidden = true;
+  $('#present').hidden = false;
+  playing = true;
+  setToggle();
+  show(0);
+  lastT = performance.now();
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(tick);
+  wake();
+}
+
+function stop() {
+  cancelAnimationFrame(raf);
+  token++;
+  clearStage();
+  $('#info').hidden = true;
+  if (document.fullscreenElement) document.exitFullscreen();
+  $('#present').hidden = true;
+  $('#landing').hidden = false;
+}
+
+function clearStage() {
+  $('#stage').innerHTML = '';
+  urls.forEach(u => URL.revokeObjectURL(u));
+  urls = [];
+}
+const url = f => { const u = URL.createObjectURL(f); urls.push(u); return u; };
+
+function renderMd(src) {
+  const inline = t => t.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  return src.split('```').map((part, i) => {
+    if (i % 2) return '<pre>' + esc(part.replace(/^[^\n]*\n/, '')) + '</pre>';
+    let out = '', list = false;
+    const close = () => { if (list) { out += '</ul>'; list = false; } };
+    for (const raw of part.split('\n')) {
+      const l = esc(raw);
+      let m;
+      if ((m = l.match(/^(#{1,6})\s+(.*)/))) { close(); const n = Math.min(m[1].length, 4); out += `<h${n}>${inline(m[2])}</h${n}>`; }
+      else if ((m = l.match(/^\s*[-*]\s+(.*)/))) { if (!list) { out += '<ul>'; list = true; } out += '<li>' + inline(m[1]) + '</li>'; }
+      else if (!l.trim()) close();
+      else { close(); out += '<p>' + inline(l) + '</p>'; }
+    }
+    close();
+    return out;
+  }).join('');
+}
+
+async function show(i) {
+  const my = ++token;
+  idx = i;
+  const s = slides[i];
+  clearStage();
+  elapsed = 0;
+  const el = document.createElement('div');
+  el.className = 'slide ' + s.type;
+  dur = baseMs;
+  let scrollEl = null;
+  let src = null;
+  if (['image', 'video', 'audio', 'pdf', 'html'].includes(s.type)) {
+    dur = Infinity;                      // wait while a remote file resolves
+    try { src = await srcOf(s.file); } catch (e) { console.error(e); src = ''; }
+    if (my !== token) return;
+    dur = baseMs;
+  }
+
+  if (s.type === 'title') {
+    el.innerHTML = `${ICON_FOLDER}<h2>${esc(s.title.split('/').join(' / '))}</h2><p>${s.count} file${s.count === 1 ? '' : 's'}</p>`;
+    dur = Math.min(baseMs, 3000);
+  } else if (s.type === 'image') {
+    const im = document.createElement('img'); im.src = src; im.alt = s.file.name; el.appendChild(im);
+  } else if (s.type === 'video') {
+    const v = document.createElement('video');
+    v.src = src; v.playsInline = true; v.controls = true;
+    v.onended = () => next();
+    v.onerror = () => { dur = baseMs; };
+    el.appendChild(v);
+    dur = Infinity;
+    v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+  } else if (s.type === 'audio') {
+    el.innerHTML = `<b style="font-size:22px;font-weight:500">${esc(s.file.name)}</b>`;
+    const a = document.createElement('audio'); a.src = src; a.controls = true; a.onended = () => next();
+    el.appendChild(a); dur = Infinity;
+    a.play().catch(() => {});
+  } else if (s.type === 'pdf' || s.type === 'html') {
+    const f = document.createElement('iframe'); f.src = src;
+    if (s.type === 'html') f.setAttribute('sandbox', 'allow-scripts');
+    el.appendChild(f);
+    dur = baseMs * 2;
+  } else if (s.type === 'md' || s.type === 'text') {
+    const text = await s.file.text();
+    if (my !== token) return;
+    const body = document.createElement('div'); body.className = 'body';
+    body.innerHTML = s.type === 'md' ? renderMd(text) : '<pre>' + esc(text) + '</pre>';
+    el.appendChild(body);
+    el.classList.add('doc');
+    scrollEl = el;
+  } else {
+    el.innerHTML = `${ICON_FOLDER}<b>${esc(s.file.name)}</b><span>${s.file.size ? (s.file.size / 1024).toFixed(1) + ' KB - ' : ''}preview not supported</span>`;
+  }
+
+  $('#stage').appendChild(el);
+  if (window.gsap) {
+    gsap.fromTo(el, {opacity: 0, scale: .985}, {opacity: 1, scale: 1, duration: .6, ease: 'power2.out', clearProps: 'transform'});
+    if (s.type === 'title') gsap.from(el.children, {opacity: 0, y: 28, duration: .7, stagger: .12, ease: 'power3.out', delay: .1});
+  }
+  showInfo(s.cfg);
+  const nx = slides[i + 1];
+  if (nx && nx.file && nx.file.get && ['image', 'video', 'pdf'].includes(nx.type)) {
+    srcOf(nx.file).then(u => { if (nx.type === 'image') new Image().src = u; }).catch(() => {});
+  }
+  el._scroll = null;
+  if (scrollEl) {
+    const over = scrollEl.scrollHeight - scrollEl.clientHeight;
+    if (over > 0) { scrollEl._over = over; dur = baseMs + (over / 45) * 1000; el._scroll = true; }
+  }
+  window._cur = el;
+  $('#caption').textContent = s.type === 'title' ? '' : s.rel;
+  $('#crumb').textContent = s.type === 'title' ? s.title : s.dir;
+  $('#count').textContent = `${i + 1} / ${slides.length}`;
+  $('#progress').style.width = '0';
+}
+
+let infoPos = null, infoTimer = 0;
+try { infoPos = JSON.parse(localStorage.getItem('fp_info') || 'null'); } catch (e) {}
+function applyPos() {
+  const b = $('#info');
+  if (!infoPos) { b.style.left = b.style.top = b.style.bottom = ''; return; }
+  const x = Math.max(0, Math.min(infoPos.x, innerWidth - b.offsetWidth));
+  const y = Math.max(0, Math.min(infoPos.y, innerHeight - b.offsetHeight));
+  b.style.left = x + 'px'; b.style.top = y + 'px'; b.style.bottom = 'auto';
+}
+(() => {
+  const b = $('#info');
+  let dx = 0, dy = 0, drag = false;
+  b.addEventListener('pointerdown', e => {
+    const r = b.getBoundingClientRect();
+    dx = e.clientX - r.left; dy = e.clientY - r.top; drag = true;
+    b.setPointerCapture(e.pointerId); b.classList.add('dragging');
+  });
+  b.addEventListener('pointermove', e => {
+    if (!drag) return;
+    infoPos = {x: e.clientX - dx, y: e.clientY - dy};
+    applyPos();
+  });
+  const end = () => {
+    if (!drag) return;
+    drag = false; b.classList.remove('dragging');
+    try { localStorage.setItem('fp_info', JSON.stringify(infoPos)); } catch (e) {}
+  };
+  b.addEventListener('pointerup', end);
+  b.addEventListener('pointercancel', end);
+  b.addEventListener('dblclick', () => {
+    infoPos = null; applyPos();
+    try { localStorage.removeItem('fp_info'); } catch (e) {}
+  });
+  window.addEventListener('resize', () => { if (infoPos) applyPos(); });
+})();
+function scheduleHide() {
+  clearTimeout(infoTimer);
+  infoTimer = setTimeout(() => {
+    if (playing && !$('#info').classList.contains('dragging')) hideInfo();
+  }, 2000);
+}
+function hideInfo() {
+  const box = $('#info'), g = window.gsap;
+  clearTimeout(infoTimer);
+  if (box.hidden) return;
+  if (!g) { box.hidden = true; return; }
+  g.killTweensOf(box);
+  g.to(box, {opacity: 0, x: -30, duration: .5, ease: 'power2.in', onComplete: () => { box.hidden = true; g.set(box, {clearProps: 'opacity,transform'}); }});
+}
+function toggleInfo() {
+  const cfg = slides[idx] && slides[idx].cfg;
+  if (!$('#info').hidden) { hideInfo(); return; }
+  if (playing) togglePlay();      // info is revealed while paused
+  showInfo(cfg);
+}
+$('#infoBtn').onclick = toggleInfo;
+
+function showInfo(cfg) {
+  const box = $('#info');
+  const g = window.gsap;
+  clearTimeout(infoTimer);
+  if (g) { g.killTweensOf(box); g.set(box, {clearProps: 'opacity,transform'}); }
+  if (!cfg || !(cfg.title || cfg.description || cfg.role)) { box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = '<div class="bar"></div>'
+    + (cfg.role ? `<div class="role">${esc(cfg.role)}</div>` : '')
+    + (cfg.title ? `<h3>${esc(cfg.title)}</h3>` : '')
+    + (cfg.description ? `<p>${esc(cfg.description)}</p>` : '');
+  applyPos();
+  if (g) {
+    g.timeline({delay: .25, onComplete: () => { if (playing) scheduleHide(); }})
+      .from(box, {opacity: 0, x: -40, duration: .6, ease: 'power3.out'})
+      .from(box.querySelector('.bar'), {scaleY: 0, transformOrigin: 'top', duration: .5, ease: 'power2.out'}, '<.1')
+      .from(box.querySelectorAll('.role,h3,p'), {opacity: 0, y: 18, duration: .55, stagger: .12, ease: 'power2.out'}, '<.15');
+  } else if (playing) scheduleHide();
+}
+
+function next() {
+  if (idx + 1 < slides.length) show(idx + 1);
+  else if (loopOn) show(0);
+  else { playing = false; setToggle(); }
+}
+function prev() { show(idx > 0 ? idx - 1 : slides.length - 1); }
+
+function tick(t) {
+  raf = requestAnimationFrame(tick);
+  const dt = Math.min(t - lastT, 100);
+  lastT = t;
+  if (!playing) return;
+  const el = window._cur;
+  if (dur === Infinity) {
+    const m = el && el.querySelector('video,audio');
+    if (m && m.duration) $('#progress').style.width = (m.currentTime / m.duration * 100) + '%';
+    return;
+  }
+  elapsed += dt;
+  $('#progress').style.width = Math.min(100, elapsed / dur * 100) + '%';
+  if (el && el._scroll) {
+    const lead = 800, span = Math.max(1, dur - lead - 800);
+    el.scrollTop = el._over * Math.min(1, Math.max(0, (elapsed - lead) / span));
+  }
+  if (elapsed >= dur) next();
+}
+
+function setToggle() { $('#toggle').innerHTML = playing ? ICON_PAUSE : ICON_PLAY; }
+function togglePlay() {
+  playing = !playing; setToggle();
+  if (!playing) clearTimeout(infoTimer);
+  else if (!$('#info').hidden) scheduleHide();
+  const m = window._cur && window._cur.querySelector('video,audio');
+  if (m) playing ? m.play().catch(() => {}) : m.pause();
+}
+function fullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else $('#present').requestFullscreen().catch(() => {});
+}
+
+$('#prev').onclick = prev;
+$('#next').onclick = next;
+$('#toggle').onclick = togglePlay;
+$('#full').onclick = fullscreen;
+$('#exit').onclick = stop;
+
+let idleTimer;
+function wake() {
+  $('#present').classList.remove('idle');
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => $('#present').classList.add('idle'), 2500);
+}
+$('#present').addEventListener('mousemove', wake);
+$('#present').addEventListener('click', wake);
+
+document.addEventListener('keydown', e => {
+  if ($('#present').hidden) return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') next();
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
+  else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+  else if (e.key === 'f' || e.key === 'F') fullscreen();
+  else if (e.key === 'i' || e.key === 'I') toggleInfo();
+  else if (e.key === 'Escape' && !document.fullscreenElement) stop();
+  wake();
+});
+
+if (location.protocol.startsWith('http')) {
+  $('#drop').hidden = true;
+  $('#boot').textContent = 'Loading folders...';
+  loadHosted().then(ok => {
+    if (ok) { $('#change').hidden = true; return; }
+    $('#boot').textContent = '';
+    $('#drop').hidden = false;
+    setStatus('Could not read folders from the site - choose a local folder instead.');
+  });
+}
+</script>
+</body>
+</html>

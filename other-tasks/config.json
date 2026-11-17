@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Group Demographic Update",
+    "description": "In Create Task, Group level offers Initial Contracting, Renegotiating / Recontracting, Credentialing, Demographic Update and Generic Task (Other). Selecting Demographic Update shows a dropdown to pick the change: Group location addition, Group location termination, Terminating one or more providers from the group, or Other demographic update.",
+    "role": "Group Admin",
+    "filename": "step1.png"
+  },
+  {
+    "title": "Group Generic Task",
+    "description": "Selecting Generic Task (Other) at group level shows a dropdown for the kind of task: Roster update, Change in ownership, tax ID, or legal entity, or Other task with your own title. Then select the payers and click Next.",
+    "role": "Group Admin",
+    "filename": "step2.png"
+  },
+  {
+    "title": "Individual Demographic Update",
+    "description": "Choosing Individual level lists Credentialing, Recredentialing, Demographic Update and Generic Task (Other) for one provider. Demographic Update offers: Add location(s) for this provider, Group location(s) termination for this provider, Terminate this provider from the group, Provider name change, or Other demographic update.",
+    "role": "Group Admin",
+    "filename": "step3.png"
+  },
+  {
+    "title": "Individual Generic Task",
+    "description": "Generic Task (Other) at individual level offers Roster update, License, certification, or insurance renewal, or Other task with your own title. Select the payers to assign the task to, then click Next.",
+    "role": "Group Admin",
+    "filename": "step4.png"
+  }
+]
