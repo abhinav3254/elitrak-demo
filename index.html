@@ -234,12 +234,30 @@ if (window.gsap) gsap.from('#landing h1, #landing .sub, #drop', {opacity: 0, y: 
 const ROOT_LABEL = 'EliTrak Journey';
 const setStatus = t => { $('#status').textContent = t; };
 
-async function loadHosted() {
+let lastErr = '';
+// 1) manifest.json if present, 2) otherwise the repo's file list from the GitHub API
+async function listPaths() {
   try {
     const r = await fetch('manifest.json', {cache: 'no-cache'});
-    if (!r.ok) throw new Error('manifest.json not found');
-    const paths = await r.json();
-    if (!paths.length) throw new Error('manifest is empty');
+    if (r.ok) { const j = await r.json(); if (Array.isArray(j) && j.length) return j; }
+  } catch (e) {}
+  const host = location.hostname;
+  if (!host.endsWith('.github.io')) throw new Error('not on GitHub Pages');
+  const owner = host.split('.')[0];
+  const repo = location.pathname.split('/')[1] || `${owner}.github.io`;
+  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`);
+  if (!r.ok) throw new Error('GitHub API ' + r.status);
+  const j = await r.json();
+  return j.tree
+    .filter(n => n.type === 'blob' && n.path.includes('/') && !n.path.split('/').some(p => p.startsWith('.') || p === 'node_modules'))
+    .map(n => n.path)
+    .sort();
+}
+
+async function loadHosted() {
+  try {
+    const paths = await listPaths();
+    if (!paths.length) throw new Error('no folders found in the repo');
     const out = paths.map(p => {
       const u = p.split('/').map(encodeURIComponent).join('/');
       const f = {name: p.split('/').pop(), size: 0, get: async () => u};
@@ -251,6 +269,7 @@ async function loadHosted() {
     return true;
   } catch (e) {
     console.warn(e);
+    lastErr = e.message;
     return false;
   }
 }
@@ -650,7 +669,7 @@ if (location.protocol.startsWith('http')) {
     if (ok) { $('#change').hidden = true; return; }
     $('#boot').textContent = '';
     $('#drop').hidden = false;
-    setStatus('Could not read folders from the site - choose a local folder instead.');
+    setStatus(`Could not read folders from the site (${lastErr}) - choose a local folder instead.`);
   });
 }
 </script>
