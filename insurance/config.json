@@ -46,5 +46,11 @@
     "description": "The dialog shows the provider's Current Status with the payer, Network type, Effective date and Recredentialing date, the Tasks linked to it, and the full History from task creation through each status change and note.",
     "role": "Group Admin",
     "filename": "8.png"
+  },
+  {
+    "title": "Documents",
+    "description": "The dialog shows the Documents.",
+    "role": "Group Admin",
+    "filename": "9.png"
   }
 ]
