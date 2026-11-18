@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EliTrak Journey</title>
+<title>EliTrak Journeys</title>
+<link rel="icon" id="fav" href="data:,">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 :root{--bg:#0b0c0f;--panel:#14161b;--panel2:#1a1d24;--line:#23262e;--text:#e7e9ee;--muted:#8b909c;--accent:#6ea8fe}
@@ -16,6 +17,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* landing */
 #landing{max-width:1200px;margin:0 auto;padding:64px 24px}
 #landing h1{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.brand{display:flex;align-items:center;gap:14px}
+#logo{height:44px;width:auto;border-radius:10px;background:#fff;padding:3px}
+#logo2{height:28px;width:auto;border-radius:6px;background:#fff;padding:2px}
+.topl{display:flex;align-items:center;gap:12px}
 #landing .sub{color:var(--muted);margin-top:8px;font-size:14px}
 #drop{margin-top:32px;border:1px dashed var(--line);border-radius:14px;padding:48px 24px;text-align:center;background:var(--panel);transition:border-color .15s,background .15s}
 #drop.over{border-color:var(--accent);background:var(--panel2)}
@@ -86,8 +91,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #controls button:hover,#top button:hover{background:var(--panel2)}
 #count{color:var(--muted);font-size:13px;padding:0 10px;font-variant-numeric:tabular-nums}
 #crumb{color:#cfd3dc;font-size:14px}
-#info{position:absolute;left:24px;bottom:96px;z-index:4;max-width:min(560px,45vw);display:flex;flex-direction:column;gap:6px;padding:16px 22px 18px 24px;background:rgba(14,16,20,.8);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;pointer-events:auto;cursor:grab;user-select:none;touch-action:none;overflow:hidden}
-#info.dragging{cursor:grabbing;border-color:var(--accent)}
+#dock{position:absolute;left:24px;top:0;bottom:0;display:flex;align-items:center;z-index:4;pointer-events:none}
+#info{position:relative;width:min(360px,36vw);display:flex;flex-direction:column;gap:6px;padding:16px 22px 18px 24px;background:rgba(14,16,20,.8);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;pointer-events:none;overflow:hidden}
 #info .bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
 #info .role{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 #info h3{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
@@ -98,7 +103,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <body>
 
 <main id="landing">
-  <h1>EliTrak Journey</h1>
+  <div class="brand"><img id="logo" alt="EliTrak" hidden><h1>EliTrak Journeys</h1></div>
   <p class="sub">Pick a section to play it as an auto-advancing slideshow.</p>
   <p class="sub" id="boot"></p>
 
@@ -128,12 +133,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <div id="present" hidden>
   <div id="progress"></div>
   <div id="top">
-    <span id="crumb"></span>
+    <span class="topl"><img id="logo2" alt="" hidden><span id="crumb"></span></span>
     <button id="exit" title="Exit (Esc)"><svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Exit</button>
   </div>
   <div id="stage"></div>
   <div id="caption"></div>
-  <div id="info" hidden title="Drag to move - double-click to reset"></div>
+  <div id="dock"><div id="info" hidden></div></div>
   <div id="controls">
     <button id="prev" title="Previous (Left)"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
     <button id="toggle" title="Play / Pause (Space)"></button>
@@ -149,6 +154,18 @@ const $ = s => document.querySelector(s);
 const ICON_PLAY  = '<svg class="i" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>';
 const ICON_PAUSE = '<svg class="i" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>';
 const ICON_FOLDER = '<svg class="i" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>';
+
+// Logo: logo.png in the repo root wins; falls back to the hosted image
+const LOGO_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6eI5HTZIHGH-4TGmKTwvvgxLBo0cIL9COuUH4QyIFjg&s=10';
+(() => {
+  const logo = $('#logo');
+  logo.onload = () => { logo.hidden = false; $('#logo2').src = logo.src; $('#logo2').hidden = false; $('#fav').href = logo.src; };
+  logo.onerror = () => {
+    if (!logo.dataset.fallback) { logo.dataset.fallback = '1'; logo.src = LOGO_URL; }
+    else logo.hidden = true;
+  };
+  logo.src = 'logo.png';
+})();
 
 const IGNORE = /^(\.|thumbs\.db$|desktop\.ini$)/i;
 const EXT = {
@@ -231,7 +248,7 @@ async function ingest(list) {
 
 if (window.gsap) gsap.from('#landing h1, #landing .sub, #drop', {opacity: 0, y: 20, duration: .7, stagger: .12, ease: 'power3.out', clearProps: 'all'});
 /* ---------- Hosted content: folders next to index.html, listed by manifest.json ---------- */
-const ROOT_LABEL = 'EliTrak Journey';
+const ROOT_LABEL = 'EliTrak Journeys';
 const setStatus = t => { $('#status').textContent = t; };
 
 let lastErr = '';
@@ -245,13 +262,26 @@ async function listPaths() {
   if (!host.endsWith('.github.io')) throw new Error('not on GitHub Pages');
   const owner = host.split('.')[0];
   const repo = location.pathname.split('/')[1] || `${owner}.github.io`;
-  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`);
-  if (!r.ok) throw new Error('GitHub API ' + r.status);
-  const j = await r.json();
-  return j.tree
-    .filter(n => n.type === 'blob' && n.path.includes('/') && !n.path.split('/').some(p => p.startsWith('.') || p === 'node_modules'))
-    .map(n => n.path)
-    .sort();
+  const key = `fp_tree_${owner}/${repo}`;
+  let j = null, status = 0;
+  for (const ref of ['HEAD', 'main', 'master']) {
+    const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${ref}?recursive=1`);
+    if (r.ok) { j = await r.json(); break; }
+    status = r.status;
+    if (status === 403 || status === 429) break;   // rate limited - other branches won't help
+  }
+  let paths = null;
+  if (j) {
+    paths = j.tree
+      .filter(n => n.type === 'blob' && n.path.includes('/') && !n.path.split('/').some(p => p.startsWith('.') || p === 'node_modules'))
+      .map(n => n.path)
+      .sort();
+    try { localStorage.setItem(key, JSON.stringify(paths)); } catch (e) {}
+  } else {
+    try { paths = JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) {}   // last good list
+    if (!paths) throw new Error('GitHub API ' + status + (status === 403 || status === 429 ? ' - rate limit, try again in a few minutes' : status === 404 ? ' - repo not found or private' : ''));
+  }
+  return paths;
 }
 
 async function loadHosted() {
@@ -519,45 +549,11 @@ async function show(i) {
   $('#progress').style.width = '0';
 }
 
-let infoPos = null, infoTimer = 0;
-try { infoPos = JSON.parse(localStorage.getItem('fp_info') || 'null'); } catch (e) {}
-function applyPos() {
-  const b = $('#info');
-  if (!infoPos) { b.style.left = b.style.top = b.style.bottom = ''; return; }
-  const x = Math.max(0, Math.min(infoPos.x, innerWidth - b.offsetWidth));
-  const y = Math.max(0, Math.min(infoPos.y, innerHeight - b.offsetHeight));
-  b.style.left = x + 'px'; b.style.top = y + 'px'; b.style.bottom = 'auto';
-}
-(() => {
-  const b = $('#info');
-  let dx = 0, dy = 0, drag = false;
-  b.addEventListener('pointerdown', e => {
-    const r = b.getBoundingClientRect();
-    dx = e.clientX - r.left; dy = e.clientY - r.top; drag = true;
-    b.setPointerCapture(e.pointerId); b.classList.add('dragging');
-  });
-  b.addEventListener('pointermove', e => {
-    if (!drag) return;
-    infoPos = {x: e.clientX - dx, y: e.clientY - dy};
-    applyPos();
-  });
-  const end = () => {
-    if (!drag) return;
-    drag = false; b.classList.remove('dragging');
-    try { localStorage.setItem('fp_info', JSON.stringify(infoPos)); } catch (e) {}
-  };
-  b.addEventListener('pointerup', end);
-  b.addEventListener('pointercancel', end);
-  b.addEventListener('dblclick', () => {
-    infoPos = null; applyPos();
-    try { localStorage.removeItem('fp_info'); } catch (e) {}
-  });
-  window.addEventListener('resize', () => { if (infoPos) applyPos(); });
-})();
+let infoTimer = 0;
 function scheduleHide() {
   clearTimeout(infoTimer);
   infoTimer = setTimeout(() => {
-    if (playing && !$('#info').classList.contains('dragging')) hideInfo();
+    if (playing) hideInfo();
   }, 2000);
 }
 function hideInfo() {
@@ -587,7 +583,6 @@ function showInfo(cfg) {
     + (cfg.role ? `<div class="role">${esc(cfg.role)}</div>` : '')
     + (cfg.title ? `<h3>${esc(cfg.title)}</h3>` : '')
     + (cfg.description ? `<p>${esc(cfg.description)}</p>` : '');
-  applyPos();
   if (g) {
     g.timeline({delay: .25, onComplete: () => { if (playing) scheduleHide(); }})
       .from(box, {opacity: 0, x: -40, duration: .6, ease: 'power3.out'})
